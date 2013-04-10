@@ -60,6 +60,13 @@ task :clear => :stop do
   [:copy_riak, :start, :join].map { |t| Rake::Task[t].invoke }
 end
 
+desc "remove LevelDB data directory"
+task :remove_leveldb_data do
+  (1..NUM_NODES).each do |n|
+    sh %{rm -rf riak#{n}/data/leveldb}
+  end
+end
+
 desc "install riak"
 task :install => [:fetch_riak, :copy_riak]
 
